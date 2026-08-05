@@ -1,31 +1,37 @@
-import './App.css'
+import { useState } from 'react';
+import './App.css';
 
-type JobApplication = {
-  company: String;
-  role: String;
-  location: String;
-  status: String;
-};
 function App() {
-  const job: JobApplication = {
-    company: "MongDB",
-    role: "Graduate Software Engineer",
-    location: "Dubin",
-    status: "Interview",
-  };
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
 
   return (
     <main>
-      <h1>ApplyFlow</h1>
-      <p>My Job Application Tracker</p>
-      <section>
-        <h2>{job.company}</h2>
-        <p>{job.role}</p>
-        <p>Location: {job.location}</p>
-        <p>Status: {job.status}</p>
-      </section>
+      <header className='page-header'>
+        <div>
+          <h1>ApplyFlow</h1>
+          <p>Track Your Job Application</p>
+        </div>
+        
+        <button className='add-button' onClick={() => setIsModalOpen(true)}>
+          <span className='plus-icon'>+</span>
+          New Application
+        </button>
+      </header>
+
+      {isModalOpen && (
+        <div className='modal-overlay'>
+          <div className='modal' role='dialog' aria-modal="true" aria-labelledby='modal-title'>
+            <h2 id='modal-title'>Add a new application</h2>
+            <p>Your application form will go here.</p>
+            <button onClick={() => setIsModalOpen(false)}>
+              Cancel
+            </button>
+          </div>
+        </div>
+      )}
     </main>
-  )
+  );
 }
 
 export default App
