@@ -14,6 +14,7 @@ type JobApplication = {
   id: number;
   role: string;
   company: string;
+  location: string;
   appliedDate: string;
   status: JobStatus;
 };
@@ -33,6 +34,7 @@ function App() {
   const [role, setRole] = useState("");
   const [appliedDate, setAppliedDate] = useState("");
   const [status, setStatus] = useState<JobStatus>("Applied");
+  const [location, setLocation] = useState("");
 
   // This function runs ONLY when we click Add Application
   function handleAddApplication() {
@@ -45,6 +47,7 @@ function App() {
       id: Date.now(),
       role: role,
       company: company,
+      location: location,
       appliedDate: appliedDate,
       status: status,
     };
@@ -54,6 +57,7 @@ function App() {
 
     setRole("");
     setCompany("");
+    setLocation("");
     setAppliedDate("");
     setStatus("Applied");
     setIsModalOpen(false);
@@ -97,6 +101,7 @@ function deleteJob(jobId: number) {
               <div>
                 <h3>{job.role}</h3>
                 <p>{job.company}</p>
+                <p>📍 {job.location || "Location not specified"}</p>
                 <small>
                   Applied: {job.appliedDate || "No date selected"}
                 </small>
@@ -139,6 +144,15 @@ function deleteJob(jobId: number) {
             <div className='job-form'>
               <label>Role<input type="text" placeholder='Software Engineer' value={role} onChange={(event) => setRole(event.target.value)}/></label>
               <label>Company<input type="text" placeholder='For example, Google' value={company} onChange={(event) => setCompany(event.target.value)}/>
+              </label>
+              <label>Location<input type="text" list='locations' placeholder='Dublin' value={location} onChange={(event) => setLocation(event.target.value)}/>
+              <datalist id='locations'>
+                <option value="Dublin"/>
+                <option value="Cork"/>
+                <option value="Limeric"/>
+                <option value="Galway"/>
+                <option value="Remote"/>
+              </datalist>
               </label>
 
             <div className='form-row'>
