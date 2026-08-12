@@ -59,6 +59,15 @@ function App() {
     setIsModalOpen(false);
 
   }
+  function updateJobStatus(jobId: number, newStatus: JobStatus) {
+  setJobs((currentJobs) =>
+    currentJobs.map((job) =>
+      job.id === jobId
+        ? { ...job, status: newStatus }
+        : job
+    )
+  );
+}
   return (
     <main>
       <header className='page-header'>
@@ -88,9 +97,21 @@ function App() {
                 </small>
               </div>
 
-              <span className={`status-badge status-${job.status.toLowerCase()}`}>
-                {job.status}
-              </span>
+              <select className={`status-badge status-${job.status.toLowerCase()}`} 
+              value={job.status}
+              onChange={(event) =>
+                updateJobStatus(
+                  job.id,
+                  event.target.value as JobStatus
+                )
+              }>
+                <option value="Saved">Saved</option>
+                <option value="Applied">Applied</option>
+                <option value="Assessment">Assessment</option>
+                <option value="Interview">Interview</option>
+                <option value="Offer">Offer</option>
+                <option value="Rejected">Rejected</option>  
+              </select>
             </article>
           ))
         )}
@@ -113,14 +134,16 @@ function App() {
               <label>Applied date <input type="date" value={appliedDate} onChange={(event) => setAppliedDate(event.target.value)}/>
               </label>
               <label>Status
-                <select value={status} onChange={(event) => setStatus(event.target.value as JobStatus)}>
-                  <option value="Saved">Saved</option>
-                  <option value="Applied">Applied</option>
-                  <option value="Assessment">Assessment</option>
-                  <option value="Interview">Interview</option>
-                  <option value="Offer">Offer</option>
-                  <option value="Rejected">Rejected</option>
-                </select>
+                <select className={`status-select status-${status.toLowerCase()}`} value={status} onChange={(event) => setStatus(
+                  event.target.value as JobStatus)
+                  }>
+                    <option value="Saved">Saved</option>
+                    <option value="Applied">Applied</option>
+                    <option value="Assessment">Assessment</option>
+                    <option value="Interview">Interview</option>
+                    <option value="Offer">Offer</option>
+                    <option value="Rejected">Rejected</option>
+                    </select>
               </label>
             </div>
             <div className='modal-actions'>

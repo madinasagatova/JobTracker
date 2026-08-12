@@ -404,26 +404,37 @@ main {
   font-weight: 700;
 }
 
+.status-select {
+  padding: 9px 14px;
+  border: 2px solid #302947;
+  border-radius: 999px;
+
+  font: inherit;
+  font-weight: 700;
+
+  cursor: pointer;
+}
+
 .status-saved {
-  background-color: #e5e7eb;
+  background-color: #ced0d3;
 }
 
 .status-applied {
-  background-color: #dbeafe;
+  background-color: #a4c9fa;
 }
 
 .status-assessment {
-  background-color: #ede9fe;
+  background-color: #d6cefa;
 }
 
 .status-interview {
-  background-color: #ffedd5;
+  background-color: #f4d7b0;
 }
 
 .status-offer {
-  background-color: #dcfce7;
+  background-color: #b3f9cb;
 }
 
 .status-rejected {
-  background-color: #fee2e2;
+  background-color: #f9acac;
 }
