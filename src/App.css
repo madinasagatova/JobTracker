@@ -416,7 +416,7 @@ main {
 }
 
 .status-saved {
-  background-color: #ced0d3;
+  background-color: #faceea;
 }
 
 .status-applied {
@@ -428,7 +428,7 @@ main {
 }
 
 .status-interview {
-  background-color: #f4d7b0;
+  background-color: #f9f899;
 }
 
 .status-offer {
@@ -436,5 +436,40 @@ main {
 }
 
 .status-rejected {
-  background-color: #f9acac;
+  background-color: #ef8b8b;
+}
+.job-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.delete-button {
+  padding: 9px 14px;
+  border: 2px solid #302947;
+  border-radius: 999px;
+
+  background-color: white;
+  color: #302947;
+
+  font: inherit;
+  font-weight: 700;
+
+  cursor: pointer;
+
+  box-shadow: 0 4px 0 #302947;
+
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+.delete-button:hover {
+  transform: translateY(2px);
+  box-shadow: 0 2px 0 #302947;
+}
+
+.delete-button:active {
+  transform: translateY(4px);
+  box-shadow: none;
 }

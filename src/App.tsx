@@ -68,6 +68,11 @@ function App() {
     )
   );
 }
+function deleteJob(jobId: number) {
+  setJobs((currentJobs) =>
+  currentJobs.filter((job) => job.id !== jobId)
+);
+}
   return (
     <main>
       <header className='page-header'>
@@ -97,7 +102,8 @@ function App() {
                 </small>
               </div>
 
-              <select className={`status-badge status-${job.status.toLowerCase()}`} 
+              <div className='job-actions'>
+              <select className={`status-select status-${job.status.toLowerCase()}`} 
               value={job.status}
               onChange={(event) =>
                 updateJobStatus(
@@ -112,6 +118,11 @@ function App() {
                 <option value="Offer">Offer</option>
                 <option value="Rejected">Rejected</option>  
               </select>
+              <button type='button' className='delete-button' onClick={() => deleteJob(job.id)}>
+                Delete
+              </button>
+              </div>
+              
             </article>
           ))
         )}
