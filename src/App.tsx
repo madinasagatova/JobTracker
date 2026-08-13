@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import './App.css';
 
 // Describe information that every job must contain
@@ -27,7 +27,17 @@ function App() {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   // React remembers an array of jobs applications
-  const [jobs, setJobs] = useState<JobApplication[]>([]);
+  const [jobs, setJobs] = useState<JobApplication[]>(() => {
+    const savedJobs = localStorage.getItem("applyflow-jobs");
+
+    if (savedJobs) {
+      // Converts the saved text back into a JavaScript array
+      return JSON.parse(savedJobs);
+    }
+
+    // Otherwise start with an empty list
+    return [];
+  });
 
   // "" - means it starts empty
   const [company, setCompany] = useState(""); 
@@ -37,6 +47,14 @@ function App() {
   const [location, setLocation] = useState("");
 
   const [editingJobID, setEditingJobId] = useState<number | null>(null);
+
+  useEffect(() => {
+    localStorage.setItem(
+      "applyflow-jobs",
+      JSON.stringify(jobs)
+    );
+  }, [jobs]);
+
   // This function runs ONLY when we click Add Application
   function handleSaveApplication() {
     if (!role.trim() || !company.trim()) {
@@ -89,7 +107,7 @@ function App() {
         : job
     )
   );
-}
+  }
 function deleteJob(jobId: number) {
   setJobs((currentJobs) =>
   currentJobs.filter((job) => job.id !== jobId)
