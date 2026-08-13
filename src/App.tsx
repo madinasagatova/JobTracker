@@ -36,30 +36,48 @@ function App() {
   const [status, setStatus] = useState<JobStatus>("Applied");
   const [location, setLocation] = useState("");
 
+  const [editingJobID, setEditingJobId] = useState<number | null>(null);
   // This function runs ONLY when we click Add Application
-  function handleAddApplication() {
+  function handleSaveApplication() {
     if (!role.trim() || !company.trim()) {
       alert("Please enter both role and company.");
       return;
     }
 
-    const newJob: JobApplication = {
+    if (editingJobID !== null) {
+      // Edit existing job
+      setJobs((currentJobs) =>
+      currentJobs.map((job) =>
+      job.id === editingJobID ? {
+        ...job,
+        role: role,
+        company: company,
+        location: location,
+        appliedDate: appliedDate,
+        status: status,
+      }
+      : job));
+    } else {
+      // Add new job
+      const newJob: JobApplication = {
       id: Date.now(),
       role: role,
       company: company,
       location: location,
       appliedDate: appliedDate,
-      status: status,
-    };
-
-    // Adds a new job
-    setJobs((currentJobs) => [...currentJobs, newJob]);
+      status: status,};
+      
+      setJobs((currentJobs) => [...currentJobs, newJob]);
+     
+      }
 
     setRole("");
     setCompany("");
     setLocation("");
     setAppliedDate("");
     setStatus("Applied");
+
+    setEditingJobId(null);
     setIsModalOpen(false);
 
   }
@@ -77,6 +95,19 @@ function deleteJob(jobId: number) {
   currentJobs.filter((job) => job.id !== jobId)
 );
 }
+
+// Function to edit the Job Application
+function handleEditJob(job: JobApplication) {
+  setEditingJobId(job.id);
+
+  setRole(job.role);
+  setCompany(job.company);
+  setLocation(job.location);
+  setAppliedDate(job.appliedDate);
+  setStatus(job.status);
+
+  setIsModalOpen(true);
+}
   return (
     <main>
       <header className='page-header'>
@@ -85,7 +116,17 @@ function deleteJob(jobId: number) {
           <p>Track Your Job Application</p>
         </div>
         
-        <button className='add-button' onClick={() => setIsModalOpen(true)}>
+        <button className='add-button' onClick={() => {
+          setEditingJobId(null);
+          
+          setRole("");
+          setCompany("");
+          setLocation("");
+          setAppliedDate("");
+          setStatus("Applied");
+        
+          setIsModalOpen(true);
+        }}>
           <span className='plus-icon'>+</span>
           New Application
         </button>
@@ -123,6 +164,9 @@ function deleteJob(jobId: number) {
                 <option value="Offer">Offer</option>
                 <option value="Rejected">Rejected</option>  
               </select>
+              <button type='button' className='edit-button' onClick={() => handleEditJob(job)}>
+                Edit
+              </button>
               <button type='button' className='delete-button' onClick={() => deleteJob(job.id)}>
                 Delete
               </button>
@@ -140,7 +184,7 @@ function deleteJob(jobId: number) {
           role='dialog' 
           aria-modal="true" 
           aria-labelledby='modal-title'>
-            <h2 id='modal-title'>Add a new application</h2>
+            <h2 id='modal-title'>{editingJobID !== null ? "Edit application" : "Add a new application"}</h2>
             <div className='job-form'>
               <label>Role<input type="text" placeholder='Software Engineer' value={role} onChange={(event) => setRole(event.target.value)}/></label>
               <label>Company<input type="text" placeholder='For example, Google' value={company} onChange={(event) => setCompany(event.target.value)}/>
@@ -178,9 +222,9 @@ function deleteJob(jobId: number) {
             <button
                   type="button"
                   className="add-button"
-                  onClick={handleAddApplication}
+                  onClick={handleSaveApplication}
                 >
-                  Add Application
+                  {editingJobID !== null ? "Save Changes" : "Add Application"}
                 </button>
               </div>
             </div>
