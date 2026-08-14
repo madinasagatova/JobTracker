@@ -10,6 +10,9 @@ type JobStatus =
 | "Offer"
 | "Rejected";
 
+// Filter Job Status
+type FilterStatus = "All" | JobStatus;
+
 type JobApplication = {
   id: number;
   role: string;
@@ -47,6 +50,16 @@ function App() {
   const [location, setLocation] = useState("");
 
   const [editingJobID, setEditingJobId] = useState<number | null>(null);
+
+  // Filter state. Initially, we show everything
+  const [filter, setFilter] = useState<FilterStatus>("All");
+
+  // Filtered list
+  const filteredJobs = 
+  filter === "All" 
+  ? jobs 
+  : jobs.filter((job) => job.status === filter);
+     
 
   useEffect(() => {
     localStorage.setItem(
@@ -108,24 +121,21 @@ function App() {
     )
   );
   }
-function deleteJob(jobId: number) {
-  setJobs((currentJobs) =>
-  currentJobs.filter((job) => job.id !== jobId)
-);
-}
+  function deleteJob(jobId: number) {
+    setJobs((currentJobs) =>
+      currentJobs.filter((job) => job.id !== jobId));
+  }
 
-// Function to edit the Job Application
-function handleEditJob(job: JobApplication) {
-  setEditingJobId(job.id);
-
-  setRole(job.role);
-  setCompany(job.company);
-  setLocation(job.location);
-  setAppliedDate(job.appliedDate);
-  setStatus(job.status);
-
-  setIsModalOpen(true);
-}
+  // Function to edit the Job Application
+  function handleEditJob(job: JobApplication) {
+    setEditingJobId(job.id);
+    setRole(job.role);
+    setCompany(job.company);
+    setLocation(job.location);
+     setAppliedDate(job.appliedDate);
+     setStatus(job.status);
+     setIsModalOpen(true);
+    }
   return (
     <main>
       <header className='page-header'>
@@ -151,11 +161,37 @@ function handleEditJob(job: JobApplication) {
       </header>
       <section className='jobs-list'>
         <h2>Your Applications</h2>
+
+        <div className='filter-buttons'>
+          {(
+            [
+              "All",
+              "Saved",
+              "Applied",
+              "Assessment",
+              "Interview",
+              "Offer",
+              "Rejected",
+            ] as FilterStatus[]
+          ).map((filterOption) => (
+            <button key={filterOption}
+            type='button'
+            className={
+              filter === filterOption
+                ? "filter-button active"
+                : "filter-button"
+            }
+            onClick={() => setFilter(filterOption)}
+            >
+              {filterOption}
+            </button>
+          ))}
+        </div>
          {/* Jobs array is empty */}
-        {jobs.length === 0 ? (
-          <p>No applications yet. Add your first one!</p>
+        {filteredJobs.length === 0 ? (
+          <p>No applications found.</p>
         ) : (
-          jobs.map((job) => (
+          filteredJobs.map((job) => (
             <article className='job-card' key={job.id}>
               <div>
                 <h3>{job.role}</h3>

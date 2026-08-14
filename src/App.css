@@ -473,3 +473,37 @@ main {
   transform: translateY(4px);
   box-shadow: none;
 }
+.filter-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 24px 0;
+}
+
+.filter-button {
+  padding: 9px 16px;
+
+  border: 2px solid #302947;
+  border-radius: 999px;
+
+  background-color: white;
+  color: #302947;
+
+  font: inherit;
+  font-weight: 700;
+
+  cursor: pointer;
+
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+.filter-button:hover {
+  transform: translateY(-2px);
+}
+
+.filter-button.active {
+  background-color: #302947;
+  color: white;
+}
