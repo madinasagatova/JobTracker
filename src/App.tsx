@@ -60,6 +60,19 @@ function App() {
   ? jobs 
   : jobs.filter((job) => job.status === filter);
      
+  const totalApplications = jobs.length;
+
+  const interviewCount = jobs.filter(
+    (job) => job.status === "Interview"
+  ).length;
+
+  const offerCount = jobs.filter(
+    (job) => job.status === "Offer"
+  ).length;
+
+  const rejectedCount = jobs.filter(
+    (job) => job.status === "Rejected"
+  ).length;
 
   useEffect(() => {
     localStorage.setItem(
@@ -159,6 +172,36 @@ function App() {
           New Application
         </button>
       </header>
+      <section className='dashboard-stats'>
+        <div className='stat-card'>
+          <span className='stat-icon'>📨</span>
+          <div>
+            <p>Applications</p>
+            <strong>{totalApplications}</strong>
+          </div>
+        </div>
+        <div className='stat-card'>
+          <span className='stat-icon'>⭐</span>
+          <div>
+            <p>Interviews</p>
+            <strong>{interviewCount}</strong>
+          </div>
+        </div>
+        <div className='stat-card'>
+          <span className='stat-icon'>🏆</span>
+          <div>
+            <p>Offers</p>
+            <strong>{offerCount}</strong>
+          </div>
+        </div>
+        <div className='stat-card'>
+          <span className='stat-icon'>💔</span>
+          <div>
+            <p>Rejected</p>
+            <strong>{rejectedCount}</strong>
+          </div>
+        </div>
+      </section>
       <section className='jobs-list'>
         <h2>Your Applications</h2>
 
