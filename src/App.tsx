@@ -54,11 +54,23 @@ function App() {
   // Filter state. Initially, we show everything
   const [filter, setFilter] = useState<FilterStatus>("All");
 
+  // Search
+  const [searchTerm, setSearchTerm] = useState("");
+
   // Filtered list
-  const filteredJobs = 
-  filter === "All" 
-  ? jobs 
-  : jobs.filter((job) => job.status === filter);
+  const filteredJobs = jobs.filter((job) => {
+    const matchesStatus =
+      filter === "All" || job.status === filter;
+
+    const search = searchTerm.toLowerCase().trim();
+
+    const matchesSearch = 
+      job.company.toLowerCase().includes(search) ||
+      job.role.toLowerCase().includes(search) ||
+      job.location.toLowerCase().includes(search);
+    
+    return matchesStatus && matchesSearch;
+  });
      
   const totalApplications = jobs.length;
 
@@ -204,6 +216,12 @@ function App() {
       </section>
       <section className='jobs-list'>
         <h2>Your Applications</h2>
+
+        <input type="text"
+        className='search-input'
+        placeholder='Search company, role or location...'
+        value={searchTerm}
+        onChange={(event) => setSearchTerm(event.target.value)} />
 
         <div className='filter-buttons'>
           {(
