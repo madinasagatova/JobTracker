@@ -444,6 +444,37 @@ main {
   gap: 12px;
 }
 
+.edit-button {
+  padding: 10px 18px;
+
+  background-color: white;
+  color: #302947;
+
+  border: 2px solid #302947;
+  border-radius: 999px;
+  box-shadow: 0 5px 0 #302947;
+
+  font: inherit;
+  font-weight: 700;
+  font-size: 16px;
+
+  cursor: pointer;
+
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+.edit-button:hover {
+  transform: translateY(2px);
+  box-shadow: 0 3px 0 #302947;
+}
+
+.edit-button:active {
+  transform: translateY(5px);
+  box-shadow: none;
+}
+
 .delete-button {
   padding: 9px 14px;
   border: 2px solid #302947;
