@@ -599,3 +599,29 @@ main {
 .search-input:focus {
   outline: 3px solid rgba(160, 205, 240, 0.4);
 }
+.upcoming-interviews {
+  margin: 40px 0;
+}
+
+.upcoming-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 30px;
+
+  padding: 24px;
+
+  background-color: white;
+
+  border: 3px solid #302947;
+  border-radius: 22px;
+  box-shadow: 0 7px 0 #302947;
+}
+
+.upcoming-card h3 {
+  margin-top: 0;
+}
+
+.upcoming-card strong {
+  white-space: nowrap;
+}

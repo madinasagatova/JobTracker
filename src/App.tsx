@@ -96,6 +96,18 @@ function App() {
     );
   }, [jobs]);
 
+  // Find upcoming interviews
+  const upcomingInterviews = jobs.filter(
+    (job) =>
+      job.status === "Interview" &&
+    job.interviewDate &&
+    new Date(job.interviewDate) >= new Date()
+  ).sort(
+    (a, b) =>
+      new Date(a.interviewDate!).getTime() -
+      new Date(b.interviewDate!).getTime()
+  );
+
   // This function runs ONLY when we click Add Application
   function handleSaveApplication() {
     if (!role.trim() || !company.trim()) {
@@ -178,6 +190,7 @@ function App() {
       minute: "2-digit",
     })
   }
+  
   return (
     <main>
       <header className='page-header'>
@@ -231,6 +244,24 @@ function App() {
           </div>
         </div>
       </section>
+      {upcomingInterviews.length > 0 && (
+        <section className='upcoming-interviews'>
+          <h2>⭐ Upcoming Interview</h2>
+
+          <div className='upcoming-card'>
+            <div>
+              <h3>{upcomingInterviews[0].role}</h3>
+              <p>{upcomingInterviews[0].company}</p>
+              <p>📍 {upcomingInterviews[0].location}</p>
+            </div>
+            <strong>
+              {formatDateTime(
+                upcomingInterviews[0].interviewDate!
+              )}
+            </strong>
+          </div>
+        </section>
+      )}
       <section className='jobs-list'>
         <h2>Your Applications</h2>
 
