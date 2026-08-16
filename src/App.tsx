@@ -19,6 +19,7 @@ type JobApplication = {
   company: string;
   location: string;
   appliedDate: string;
+  interviewDate?: string; // ? - means a job can have an interview date, but it doesn't have to
   status: JobStatus;
 };
 
@@ -56,6 +57,8 @@ function App() {
 
   // Search
   const [searchTerm, setSearchTerm] = useState("");
+
+  const [interviewDate, setInterviewDate] = useState("");
 
   // Filtered list
   const filteredJobs = jobs.filter((job) => {
@@ -110,6 +113,7 @@ function App() {
         company: company,
         location: location,
         appliedDate: appliedDate,
+        interviewDate: interviewDate,
         status: status,
       }
       : job));
@@ -121,6 +125,7 @@ function App() {
       company: company,
       location: location,
       appliedDate: appliedDate,
+      interviewDate: interviewDate,
       status: status,};
       
       setJobs((currentJobs) => [...currentJobs, newJob]);
@@ -131,6 +136,7 @@ function App() {
     setCompany("");
     setLocation("");
     setAppliedDate("");
+    setInterviewDate("");
     setStatus("Applied");
 
     setEditingJobId(null);
@@ -157,9 +163,10 @@ function App() {
     setRole(job.role);
     setCompany(job.company);
     setLocation(job.location);
-     setAppliedDate(job.appliedDate);
-     setStatus(job.status);
-     setIsModalOpen(true);
+    setAppliedDate(job.appliedDate);
+    setInterviewDate(job.interviewDate || "");
+    setStatus(job.status);
+    setIsModalOpen(true);
     }
   return (
     <main>
@@ -261,6 +268,9 @@ function App() {
                 <small>
                   Applied: {job.appliedDate || "No date selected"}
                 </small>
+                {job.interviewDate && (
+                  <p>⭐ Interview: {job.interviewDate}</p>
+                )}
               </div>
 
               <div className='job-actions'>
@@ -330,6 +340,19 @@ function App() {
                     </select>
               </label>
             </div>
+            {status === "Interview" && (
+              <label>
+                Interview date & time
+
+                <input 
+                  type="datetime-local"
+                  value={interviewDate}
+                  onChange={(event) =>
+                    setInterviewDate(event.target.value)
+                  } 
+                />
+              </label>
+            )}
             <div className='modal-actions'>
             <button type='button' className='cancel-button' onClick={() => setIsModalOpen(false)}>
               Cancel
