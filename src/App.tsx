@@ -168,6 +168,16 @@ function App() {
     setStatus(job.status);
     setIsModalOpen(true);
     }
+
+  function formatDateTime(date: string) {
+    return new Date(date).toLocaleDateString("en-IE", {
+      day: "2-digit",
+      month: "short",
+      year: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+    })
+  }
   return (
     <main>
       <header className='page-header'>
@@ -269,7 +279,7 @@ function App() {
                   Applied: {job.appliedDate || "No date selected"}
                 </small>
                 {job.interviewDate && (
-                  <p>⭐ Interview: {job.interviewDate}</p>
+                  <p>⭐ Interview: {formatDateTime(job.interviewDate)}</p>
                 )}
               </div>
 
